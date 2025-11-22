@@ -22,8 +22,8 @@ const { data: post, error } = await useFetch(
 
 if (error.value) {
   throw createError({
-    statusCode: error.value.statusCode || 404,
-    statusMessage: error.value.statusMessage || "Post not found",
+    statusCode: 404,
+    statusMessage: "Post not found",
     fatal: true,
   });
 }
@@ -42,7 +42,6 @@ useSeoMeta({
     <div v-if="post" class="max-w-4xl mx-auto">
       <article>
         <div class="mb-6">
-          <span class="text-accent-400 font-semibold text-sm uppercase tracking-wide">Technology</span>
           <h1 class="text-4xl font-bold mt-2 mb-4 text-dark-50">{{ post.title }}</h1>
           <div class="text-dark-400 text-sm">
             Published on {{
