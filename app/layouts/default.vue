@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { data: updates } = await useFetch("/api/updates");
+const showUpdates = ref(false)
 
 function timeAgo(timestamp: number) {
   const seconds = Math.floor((Date.now() - timestamp * 1000) / 1000);
@@ -25,7 +26,7 @@ function timeAgo(timestamp: number) {
 onMounted(() => {
   setTimeout(() => {
     const marquee = document.querySelector(".animate-marquee");
-    if (marquee) marquee.classList.add("active");
+    //if (marquee) marquee.classList.add("active");
   }, 2000);
 });
 </script>
@@ -45,7 +46,7 @@ onMounted(() => {
       </NuxtLink>
 
       <div
-        v-if="updates && updates.length"
+        v-if="updates && updates.length && showUpdates"
         class="border-t border-dark-700 bg-dark-900 text-sm h-10 flex items-center relative"
       >
         <div
@@ -107,7 +108,7 @@ onMounted(() => {
             class="text-accent-400"
             >Slack (#soapbox)</a
           >
-          for more updates.
+          for more coverage.
         </p>
       </div>
     </footer>
