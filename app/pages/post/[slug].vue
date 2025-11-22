@@ -28,11 +28,14 @@ if (error.value) {
   });
 }
 
-// Parse markdown content
-const { data: ast } = await useAsyncData(
-  `markdown-${route.params.slug}`, 
-  () => parseMarkdown(post.value.content)
-);
+useSeoMeta({
+  title: () => post.value?.title,
+  description: () => post.value?.description,
+  ogTitle: () => post.value?.title,
+  ogDescription: () => post.value?.description,
+  articlePublishedTime: () => post.value?.created_at ? new Date(post.value.created_at * 1000).toISOString() : undefined,
+  articleModifiedTime: () => post.value?.updated_at ? new Date(post.value.updated_at * 1000).toISOString() : undefined,
+});
 </script>
 
 <template>
@@ -75,8 +78,8 @@ const { data: ast } = await useAsyncData(
         </div>
 
         <div class="prose prose-invert max-w-none">
-          <div v-if="ast">
-             <MDCRenderer :body="ast.body" :data="ast.data" :components="components" />
+          <div v-if="post.ast">
+             <MDCRenderer :body="post.ast.body" :data="post.ast.data" :components="components" />
           </div>
           <div v-else>
             Loading markdown...

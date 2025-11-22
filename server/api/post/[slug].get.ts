@@ -1,4 +1,5 @@
 import { createError } from "h3";
+import { parseMarkdown } from '@nuxtjs/mdc/runtime';
 
 export default defineEventHandler(async (event) => {
   const slug = getRouterParam(event, "slug");
@@ -30,7 +31,12 @@ export default defineEventHandler(async (event) => {
       });
     }
 
-    return post;
+    const ast = await parseMarkdown(post.content);
+
+    return {
+      ...post,
+      ast
+    };
   } catch (e) {
     console.error("Database error:", e);
     throw createError({
