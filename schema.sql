@@ -40,3 +40,16 @@ INSERT INTO posts (slug, title, description, content, created_at, updated_at) VA
     1763856000,
     1763856000
 );
+
+DROP TABLE IF EXISTS updates;
+CREATE TABLE IF NOT EXISTS updates (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    content TEXT,
+    created_at INTEGER
+);
+
+INSERT INTO updates (content, created_at) VALUES 
+('Something happened', 1763834827), -- 3m ago (relative to base time)
+('Something else happened before', 1763833827), -- 23m ago
+('This is crazy but its old news', 1763823827), -- 2h ago
+('Something way long ago', 1762833827); -- 3d ago
