@@ -1,75 +1,20 @@
-# Nuxt Minimal Starter
+d1 setup
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+➜ soapbox git:(master) ✗ pnpx wrangler d1 create soapbox
 
-## Setup
+⛅️ wrangler 4.50.0
+───────────────────
+✔ Select an account › 3kh0
+✅ Successfully created DB 'soapbox' in region ENAM
+Created your new D1 database.
 
-Make sure to install dependencies:
-
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+To access your new D1 Database in your Worker, add the following snippet to your configuration file:
+{
+"d1_databases": [
+{
+"binding": "soapbox",
+"database_name": "soapbox",
+"database_id": "5bf3c0c6-9b45-4211-a298-a3367808f1e3"
+}
+]
+}

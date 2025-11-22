@@ -1,15 +1,14 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
-  compatibilityDate: '2025-07-15',
+  compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
-  css: ['./app/assets/main.css'],
-  vite: { plugins: [ tailwindcss() ] },
-  modules: [
-    '@nuxt/eslint',
-    '@nuxt/fonts',
-    '@nuxt/hints',
-  ],
+  nitro: {
+    preset: "cloudflare-pages",
+  },
+  css: ["./app/assets/main.css"],
+  vite: { plugins: [tailwindcss()] },
+  modules: ["nitro-cloudflare-dev", "@nuxt/eslint", "@nuxt/fonts", "@nuxt/hints", "@nuxtjs/mdc"],
   app: {
     head: {
       charset: "utf-8",
@@ -35,4 +34,4 @@ export default defineNuxtConfig({
       ],
     },
   },
-})
+});
