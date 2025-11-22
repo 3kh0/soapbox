@@ -13,7 +13,7 @@
       </NuxtLink>
     </header>
 
-    <main class="max-w-5xl mx-auto px-6 py-12 grow w-full">
+    <main class="max-w-5xl mx-auto p-6 grow w-full">
       <slot />
     </main>
 
@@ -21,13 +21,13 @@
       <div class="max-w-5xl mx-auto px-6 py-8">
         <p class="text-dark-400 text-sm">
           Presented by Soapbox, bringing you unparalleled coverage of all-things
-          Hack Club in real-time. Not affiliated with Hack Club HQ, we are an
-          independent organization. Follow our channel on
+          Hack Club in real-time. We are not affiliated with Hack Club HQ, we are an
+          independent organization and fully run by the Hack Club community. Follow our channel on
           <a
             href="https://hackclub.slack.com/archives/C09UK67E4SZ"
             class="text-accent-400"
             >Slack (#soapbox)</a
-          >!
+          > for more updates.
         </p>
       </div>
     </footer>
