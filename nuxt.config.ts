@@ -8,7 +8,13 @@ export default defineNuxtConfig({
   },
   css: ["./app/assets/main.css"],
   vite: { plugins: [tailwindcss()] },
-  modules: ["nitro-cloudflare-dev", "@nuxt/eslint", "@nuxt/fonts", "@nuxt/hints", "@nuxtjs/mdc"],
+  modules: [
+    "nitro-cloudflare-dev",
+    "@nuxt/eslint",
+    "@nuxt/fonts",
+    "@nuxt/hints",
+    "@nuxtjs/mdc",
+  ],
   app: {
     pageTransition: { name: "page", mode: "out-in" },
     head: {

@@ -12,7 +12,9 @@ export default defineEventHandler(async (event) => {
 
   try {
     const { results } = await db
-      .prepare("SELECT id, content, created_at FROM updates ORDER BY created_at DESC LIMIT 5")
+      .prepare(
+        "SELECT id, content, created_at FROM updates ORDER BY created_at DESC LIMIT 5",
+      )
       .all();
 
     return results;

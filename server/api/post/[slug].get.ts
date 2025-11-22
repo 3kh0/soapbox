@@ -1,5 +1,5 @@
 import { createError } from "h3";
-import { parseMarkdown } from '@nuxtjs/mdc/runtime';
+import { parseMarkdown } from "@nuxtjs/mdc/runtime";
 
 export default defineEventHandler(async (event) => {
   const slug = getRouterParam(event, "slug");
@@ -8,7 +8,10 @@ export default defineEventHandler(async (event) => {
   const db = event.context.cloudflare?.env?.soapbox;
 
   if (!db) {
-    console.error('Cloudflare context:', JSON.stringify(event.context.cloudflare, null, 2));
+    console.error(
+      "Cloudflare context:",
+      JSON.stringify(event.context.cloudflare, null, 2),
+    );
     // Check if we are in development and maybe warn or mock?
     // For now, fail hard if DB is missing, as it means misconfiguration.
     throw createError({
@@ -35,7 +38,7 @@ export default defineEventHandler(async (event) => {
 
     return {
       ...post,
-      ast
+      ast,
     };
   } catch (e) {
     console.error("Database error:", e);
