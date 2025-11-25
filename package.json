@@ -7,7 +7,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "pnpm build && wrangler pages dev dist",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint": "prettier --write ."
   },
   "dependencies": {
     "@nuxt/eslint": "1.10.0",
@@ -23,6 +24,7 @@
   "devDependencies": {
     "@nuxtjs/mdc": "^0.18.4",
     "nitro-cloudflare-dev": "^0.2.2",
+    "prettier": "^3.6.2",
     "wrangler": "^4.50.0"
   }
 }

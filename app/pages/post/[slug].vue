@@ -31,14 +31,8 @@ useSeoMeta({
   description: () => post.value?.description,
   ogTitle: () => post.value?.title,
   ogDescription: () => post.value?.description,
-  articlePublishedTime: () =>
-    post.value?.created_at
-      ? new Date(post.value.created_at * 1000).toISOString()
-      : undefined,
-  articleModifiedTime: () =>
-    post.value?.updated_at
-      ? new Date(post.value.updated_at * 1000).toISOString()
-      : undefined,
+  articlePublishedTime: () => (post.value?.created_at ? new Date(post.value.created_at * 1000).toISOString() : undefined),
+  articleModifiedTime: () => (post.value?.updated_at ? new Date(post.value.updated_at * 1000).toISOString() : undefined),
 });
 </script>
 
@@ -63,11 +57,7 @@ useSeoMeta({
 
       <div class="prose prose-invert max-w-none">
         <div v-if="post.ast">
-          <MDCRenderer
-            :body="post.ast.body"
-            :data="post.ast.data"
-            :components="components"
-          />
+          <MDCRenderer :body="post.ast.body" :data="post.ast.data" :components="components" />
         </div>
       </div>
     </article>

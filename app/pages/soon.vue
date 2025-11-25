@@ -1,5 +1,5 @@
 <script setup lang="ts">
-console.log('holding')
+console.log("holding");
 </script>
 
 <template>

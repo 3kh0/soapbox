@@ -11,11 +11,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const { results } = await db
-      .prepare(
-        "SELECT slug, title, description, created_at FROM posts ORDER BY created_at DESC",
-      )
-      .all();
+    const { results } = await db.prepare("SELECT slug, title, description, created_at FROM posts ORDER BY created_at DESC").all();
 
     return results;
   } catch (e) {
