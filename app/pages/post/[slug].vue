@@ -1,18 +1,48 @@
 <script setup lang="ts">
+import ProseH1 from "../../components/content/ProseH1.vue";
+import ProseH2 from "../../components/content/ProseH2.vue";
 import ProseH3 from "../../components/content/ProseH3.vue";
+import ProseH4 from "../../components/content/ProseH4.vue";
+import ProseH5 from "../../components/content/ProseH5.vue";
+import ProseH6 from "../../components/content/ProseH6.vue";
 import ProseP from "../../components/content/ProseP.vue";
 import ProseUl from "../../components/content/ProseUl.vue";
+import ProseOl from "../../components/content/ProseOl.vue";
 import ProseLi from "../../components/content/ProseLi.vue";
 import ProseBlockquote from "../../components/content/ProseBlockquote.vue";
 import ProseStrong from "../../components/content/ProseStrong.vue";
+import ProseImg from "../../components/content/ProseImg.vue";
+import ProseTable from "../../components/content/ProseTable.vue";
+import ProseThead from "../../components/content/ProseThead.vue";
+import ProseTbody from "../../components/content/ProseTbody.vue";
+import ProseTr from "../../components/content/ProseTr.vue";
+import ProseTh from "../../components/content/ProseTh.vue";
+import ProseTd from "../../components/content/ProseTd.vue";
+import ProseCodeInline from "../../components/content/ProseCodeInline.vue";
+import ProseHr from "../../components/content/ProseHr.vue";
 
 const components = {
+  h1: ProseH1,
+  h2: ProseH2,
   h3: ProseH3,
+  h4: ProseH4,
+  h5: ProseH5,
+  h6: ProseH6,
   p: ProseP,
   ul: ProseUl,
+  ol: ProseOl,
   li: ProseLi,
   blockquote: ProseBlockquote,
   strong: ProseStrong,
+  img: ProseImg,
+  table: ProseTable,
+  thead: ProseThead,
+  tbody: ProseTbody,
+  tr: ProseTr,
+  th: ProseTh,
+  td: ProseTd,
+  code: ProseCodeInline,
+  hr: ProseHr,
 };
 
 const route = useRoute();
