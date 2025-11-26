@@ -24,10 +24,13 @@ export default defineEventHandler(async (event) => {
     const now = Math.floor(Date.now() / 1000);
     const created_at = body.created_at || now;
 
-    await db.prepare(
-      `INSERT INTO posts (slug, title, description, content, created_at, updated_at) 
-       VALUES (?, ?, ?, ?, ?, ?)`
-    ).bind(body.slug, body.title, body.description, body.content, created_at, now).run();
+    await db
+      .prepare(
+        `INSERT INTO posts (slug, title, description, content, created_at, updated_at) 
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      )
+      .bind(body.slug, body.title, body.description, body.content, created_at, now)
+      .run();
 
     return { success: true };
   } catch (error) {

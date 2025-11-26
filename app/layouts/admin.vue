@@ -15,37 +15,14 @@ const sidebarOpen = ref(false);
 
     <div class="flex flex-1 max-w-7xl mx-auto w-full gap-6 px-6 py-6">
       <!-- Sidebar -->
-      <aside
-        :class="[
-          'fixed md:static inset-0 md:inset-auto md:w-64 md:block',
-          sidebarOpen ? 'block' : 'hidden',
-        ]"
-        class="bg-dark-800 md:bg-transparent rounded-lg md:rounded-none border md:border-0 border-dark-700 p-6 md:p-0"
-      >
+      <aside :class="['fixed md:static inset-0 md:inset-auto md:w-64 md:block', sidebarOpen ? 'block' : 'hidden']" class="bg-dark-800 md:bg-transparent rounded-lg md:rounded-none border md:border-0 border-dark-700 p-6 md:p-0">
         <nav class="space-y-3">
-          <NuxtLink
-            to="/backend"
-            class="block px-4 py-2 rounded-lg hover:bg-dark-700 text-dark-200 hover:text-accent-400 transition-colors"
-            :class="$route.path === '/backend' ? 'bg-dark-700 text-accent-400' : ''"
-          >
-            dashboard
-          </NuxtLink>
-          <NuxtLink
-            to="/backend/posts"
-            class="block px-4 py-2 rounded-lg hover:bg-dark-700 text-dark-200 hover:text-accent-400 transition-colors"
-            :class="$route.path.startsWith('/backend/posts') ? 'bg-dark-700 text-accent-400' : ''"
-          >
-            articles
-          </NuxtLink>
+          <NuxtLink to="/backend" class="block px-4 py-2 rounded-lg hover:bg-dark-700 text-dark-200 hover:text-accent-400 transition-colors" :class="$route.path === '/backend' ? 'bg-dark-700 text-accent-400' : ''"> dashboard </NuxtLink>
+          <NuxtLink to="/backend/posts" class="block px-4 py-2 rounded-lg hover:bg-dark-700 text-dark-200 hover:text-accent-400 transition-colors" :class="$route.path.startsWith('/backend/posts') ? 'bg-dark-700 text-accent-400' : ''"> articles </NuxtLink>
         </nav>
 
         <div class="mt-8 pt-6 border-t border-dark-700">
-          <NuxtLink
-            to="/"
-            class="block px-4 py-2 rounded-lg hover:bg-dark-700 text-dark-400 hover:text-dark-200 transition-colors text-sm"
-          >
-            ← Back to Soapbox
-          </NuxtLink>
+          <NuxtLink to="/" class="block px-4 py-2 rounded-lg hover:bg-dark-700 text-dark-400 hover:text-dark-200 transition-colors text-sm"> ← Back to Soapbox </NuxtLink>
         </div>
       </aside>
 

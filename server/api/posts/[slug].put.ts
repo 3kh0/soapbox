@@ -24,11 +24,14 @@ export default defineEventHandler(async (event) => {
     const updated_at = body.updated_at || Math.floor(Date.now() / 1000);
     const created_at = body.created_at || Math.floor(Date.now() / 1000);
 
-    await db.prepare(
-      `UPDATE posts 
+    await db
+      .prepare(
+        `UPDATE posts 
        SET title = ?, description = ?, content = ?, created_at = ?, updated_at = ? 
-       WHERE slug = ?`
-    ).bind(body.title, body.description, body.content, created_at, updated_at, slug).run();
+       WHERE slug = ?`,
+      )
+      .bind(body.title, body.description, body.content, created_at, updated_at, slug)
+      .run();
 
     return { success: true };
   } catch (error) {
