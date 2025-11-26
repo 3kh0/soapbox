@@ -8,6 +8,17 @@ const formatDate = (timestamp: number) => {
     day: "numeric",
   });
 };
+
+useSeoMeta({
+  title: "Soapbox News",
+  description: "Soapbox, bringing you unparalleled coverage of all-things Hack Club in real-time. We are not affiliated with Hack Club HQ, we are an independent organization and fully run by the Hack Club community.",
+  ogTitle: "Soapbox News",
+  ogDescription: "The independent Hack Club news outlet.",
+  ogType: "website",
+  ogImage: "https://soapbox.3kh0.net/og.png",
+  ogUrl: "https://soapbox.3kh0.net",
+  twitterCard: "summary_large_image",
+});
 </script>
 
 <template>

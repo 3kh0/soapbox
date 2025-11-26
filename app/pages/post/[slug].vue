@@ -89,6 +89,10 @@ useSeoMeta({
   description: () => post.value?.description,
   ogTitle: () => post.value?.title,
   ogDescription: () => post.value?.description,
+  ogType: () => "article",
+  ogImage: () => "https://soapbox.3kh0.net/og.png",
+  ogUrl: () => `https://soapbox.3kh0.net/post/${route.params.slug}`,
+  twitterCard: () => "summary_large_image",
   articlePublishedTime: () => (post.value?.created_at ? new Date(post.value.created_at * 1000).toISOString() : undefined),
   articleModifiedTime: () => (post.value?.updated_at ? new Date(post.value.updated_at * 1000).toISOString() : undefined),
 });
