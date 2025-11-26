@@ -13,10 +13,21 @@ const formatDateForInput = (timestamp: number) => {
   return date.toISOString().split("T")[0];
 };
 
+const formatDateTimeForInput = (timestamp: number) => {
+  const date = new Date(timestamp * 1000);
+  return date.toISOString().slice(0, 16); // YYYY-MM-DDTHH:mm
+};
+
 const parseDate = (dateString: string) => {
   // Create date at noon UTC to avoid timezone issues
   const [year, month, day] = dateString.split("-");
   const date = new Date(`${year}-${month}-${day}T12:00:00Z`);
+  return Math.floor(date.getTime() / 1000);
+};
+
+const parseDateTime = (dateTimeString: string) => {
+  // Parse ISO datetime format (YYYY-MM-DDTHH:mm)
+  const date = new Date(`${dateTimeString}:00Z`);
   return Math.floor(date.getTime() / 1000);
 };
 
@@ -26,6 +37,11 @@ const newPost = ref({
   description: "",
   content: "",
   created_at: Math.floor(Date.now() / 1000),
+  overrideCreatedAt: false,
+});
+
+const editState = ref({
+  overrideUpdatedAt: false,
 });
 
 async function handleCreatePost() {
@@ -37,7 +53,7 @@ async function handleCreatePost() {
         title: newPost.value.title,
         description: newPost.value.description,
         content: newPost.value.content,
-        created_at: newPost.value.created_at,
+        ...(newPost.value.overrideCreatedAt && { created_at: newPost.value.created_at }),
       },
     });
 
@@ -49,6 +65,7 @@ async function handleCreatePost() {
         description: "",
         content: "",
         created_at: Math.floor(Date.now() / 1000),
+        overrideCreatedAt: false,
       };
       await refresh();
     }
@@ -59,6 +76,7 @@ async function handleCreatePost() {
 
 async function selectPost(post: any) {
   loadingPost.value = true;
+  editState.value.overrideUpdatedAt = false;
   try {
     // Fetch full post content from the API
     const fullPost = await $fetch(`/api/post/${post.slug}`);
@@ -85,15 +103,21 @@ async function savePost() {
   if (!selectedPost.value) return;
 
   try {
+    const body: any = {
+      title: selectedPost.value.title,
+      description: selectedPost.value.description,
+      content: selectedPost.value.content,
+      created_at: selectedPost.value.created_at,
+    };
+
+    // Only include updated_at if user explicitly chose to override it
+    if (editState.value.overrideUpdatedAt) {
+      body.updated_at = selectedPost.value.updated_at;
+    }
+
     const response = await $fetch(`/api/posts/${selectedPost.value.slug}`, {
       method: "PUT",
-      body: {
-        title: selectedPost.value.title,
-        description: selectedPost.value.description,
-        content: selectedPost.value.content,
-        created_at: selectedPost.value.created_at,
-        updated_at: selectedPost.value.updated_at,
-      },
+      body,
     });
 
     if (response.success) {
@@ -166,15 +190,21 @@ async function deletePost(slug: string) {
           </div>
 
           <div>
-            <label class="block text-dark-200 text-sm font-semibold mb-2">Published Date</label>
-            <input :value="formatDateForInput(newPost.created_at)" @input="(e: any) => (newPost.created_at = parseDate(e.target.value))" type="date" class="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-dark-100 focus:outline-none focus:border-accent-500 transition-colors" />
+            <div class="flex items-center justify-between mb-2">
+              <label class="block text-dark-200 text-sm font-semibold">Published Date & Time</label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input v-model="newPost.overrideCreatedAt" type="checkbox" class="w-4 h-4 bg-dark-700 border border-dark-600 rounded focus:outline-none focus:border-accent-500" />
+                <span class="text-dark-400 text-xs">Override default time</span>
+              </label>
+            </div>
+            <input :value="formatDateTimeForInput(newPost.created_at)" @input="(e: any) => (newPost.created_at = parseDateTime(e.target.value))" type="datetime-local" class="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-dark-100 focus:outline-none focus:border-accent-500 transition-colors" />
           </div>
-        </div>
+          </div>
 
-        <div class="flex gap-3 justify-end pt-4 border-t border-dark-700">
+          <div class="flex gap-3 justify-end pt-4 border-t border-dark-700">
           <button @click="showNewPost = false" class="px-4 py-2 text-dark-300 hover:text-dark-100 transition-colors">Cancel</button>
           <button @click="handleCreatePost" class="px-4 py-2 bg-accent-500 hover:bg-accent-600 text-dark-900 font-semibold rounded-lg transition-colors">Create Post</button>
-        </div>
+          </div>
       </div>
     </div>
 
@@ -188,7 +218,7 @@ async function deletePost(slug: string) {
             slug: <code class="text-accent-400">{{ post.slug }}</code>
           </p>
         </div>
-        <div class="flex gap-2 ml-4 flex-shrink-0">
+        <div class="flex gap-2 ml-4 shrink-0">
           <button @click="selectPost(post)" class="px-3 py-1.5 text-sm bg-accent-500/20 text-accent-400 hover:bg-accent-500/30 rounded transition-colors">Edit</button>
           <button @click="deletePost(post.slug)" class="px-3 py-1.5 text-sm bg-red-500/20 text-red-400 hover:bg-red-500/30 rounded transition-colors">Delete</button>
         </div>
@@ -229,12 +259,18 @@ async function deletePost(slug: string) {
 
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <label class="block text-dark-200 text-sm font-semibold mb-2">Published Date</label>
-              <input :value="formatDateForInput(selectedPost.created_at)" @input="(e: any) => (selectedPost.created_at = parseDate(e.target.value))" type="date" class="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-dark-100 focus:outline-none focus:border-accent-500 transition-colors" />
+              <label class="block text-dark-200 text-sm font-semibold mb-2">Published Date & Time</label>
+              <input :value="formatDateTimeForInput(selectedPost.created_at)" @input="(e: any) => (selectedPost.created_at = parseDateTime(e.target.value))" type="datetime-local" class="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-dark-100 focus:outline-none focus:border-accent-500 transition-colors" />
             </div>
             <div>
-              <label class="block text-dark-200 text-sm font-semibold mb-2">Last Updated</label>
-              <input :value="formatDateForInput(selectedPost.updated_at || Math.floor(Date.now() / 1000))" @input="(e: any) => (selectedPost.updated_at = parseDate(e.target.value))" type="date" class="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-dark-100 focus:outline-none focus:border-accent-500 transition-colors" />
+              <div class="flex items-center justify-between mb-2">
+                <label class="block text-dark-200 text-sm font-semibold">Last Updated</label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input v-model="editState.overrideUpdatedAt" type="checkbox" class="w-4 h-4 bg-dark-700 border border-dark-600 rounded focus:outline-none focus:border-accent-500" />
+                  <span class="text-dark-400 text-xs">Override time</span>
+                </label>
+              </div>
+              <input :value="formatDateTimeForInput(selectedPost.updated_at || Math.floor(Date.now() / 1000))" @input="(e: any) => (selectedPost.updated_at = parseDateTime(e.target.value))" type="datetime-local" :disabled="!editState.overrideUpdatedAt" class="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-dark-100 focus:outline-none focus:border-accent-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" />
             </div>
           </div>
         </div>

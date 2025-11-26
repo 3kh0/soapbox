@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
       });
     }
 
-    const updated_at = body.updated_at || Math.floor(Date.now() / 1000);
+    const updated_at = body.hasOwnProperty('updated_at') ? body.updated_at : Math.floor(Date.now() / 1000);
     const created_at = body.created_at || Math.floor(Date.now() / 1000);
 
     await db

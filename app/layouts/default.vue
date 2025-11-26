@@ -37,7 +37,7 @@ onMounted(() => {
       <NuxtLink to="/" class="block">
         <div class="max-w-5xl mx-auto px-6 py-4">
           <h1 class="text-2xl font-bold text-accent-400">Soapbox</h1>
-          <p class="text-dark-400 text-sm mt-1">The independent Hack Club news source.</p>
+          <p class="text-dark-400 text-sm mt-1">The independent Hack Club news outlet.</p>
         </div>
       </NuxtLink>
 

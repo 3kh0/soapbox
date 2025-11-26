@@ -47,6 +47,7 @@ const components = {
 
 const route = useRoute();
 const { data: post, error } = await useFetch(`/api/post/${route.params.slug}`);
+const showDateDetails = ref(false);
 
 if (error.value) {
   throw createError({
@@ -55,6 +56,33 @@ if (error.value) {
     fatal: true,
   });
 }
+
+const getRelativeTime = (timestamp: number) => {
+  const now = new Date();
+  const date = new Date(timestamp);
+  const diffMs = now.getTime() - date.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMins / 60);
+  const diffDays = Math.floor(diffHours / 24);
+
+  if (diffMins < 1) return "just now";
+  if (diffMins < 60) return `${diffMins}m ago`;
+  if (diffHours < 24) return `${diffHours}h ago`;
+  if (diffDays < 7) return `${diffDays}d ago`;
+  return date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+};
+
+const formatFullDate = (timestamp: number) => {
+  const date = new Date(timestamp);
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZoneName: "short",
+  });
+};
 
 useSeoMeta({
   title: () => post.value?.title,
@@ -67,21 +95,45 @@ useSeoMeta({
 </script>
 
 <template>
-  <div v-if="post" class="max-w-4xl mx-auto">
+  <div v-if="post" class="max-w-5xl mx-auto">
     <article>
       <div class="mb-6">
         <h1 class="text-4xl font-bold mt-2 mb-4 text-dark-50">
           {{ post.title }}
         </h1>
         <div class="text-dark-400 text-sm">
-          Published on
-          {{
-            new Date(post.created_at * 1000).toLocaleDateString(undefined, {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })
-          }}
+          <div class="flex items-center gap-2 group">
+            <span>
+              {{
+                post.updated_at && post.updated_at !== post.created_at
+                  ? "Updated " + getRelativeTime(post.updated_at * 1000)
+                  : "Published " + getRelativeTime(post.created_at * 1000)
+              }}
+            </span>
+            <button
+              class="opacity-75 group-hover:opacity-100 transition-opacity cursor-pointer"
+              @click="showDateDetails = !showDateDetails"
+              :aria-label="showDateDetails ? 'Hide date details' : 'Show date details'"
+            >
+              <svg
+                class="w-4 h-4 transform transition-transform"
+                :class="{ 'rotate-180': showDateDetails }"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
+            </button>
+          </div>
+          <div v-if="showDateDetails" class="mt-2 text-dark-500 text-xs space-y-1">
+            <div v-if="post.updated_at && post.updated_at !== post.created_at">
+              Updated {{ formatFullDate(post.updated_at * 1000) }} ({{ getRelativeTime(post.updated_at * 1000) }})
+            </div>
+            <div>
+              Published {{ formatFullDate(post.created_at * 1000) }} ({{ getRelativeTime(post.created_at * 1000) }})
+            </div>
+          </div>
         </div>
       </div>
 

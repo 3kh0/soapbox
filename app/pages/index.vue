@@ -20,11 +20,11 @@ const formatDate = (timestamp: number) => {
             {{ post.title }}
           </h2>
 
-          <p class="text-dark-300 text-sm leading-relaxed mb-4 flex-1 line-clamp-3">
+          <p class="text-dark-300 text-sm leading-relaxed mb-2 flex-1 line-clamp-3">
             {{ post.description }}
           </p>
 
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between mb-2">
             <span class="text-xs text-dark-400">{{ formatDate(post.created_at) }}</span>
           </div>
 
