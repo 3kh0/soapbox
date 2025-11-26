@@ -1,13 +1,7 @@
 <script setup lang="ts">
-const { data: posts } = await useFetch("/api/posts");
+import { full } from "../utils/dates";
 
-const formatDate = (timestamp: number) => {
-  return new Date(timestamp * 1000).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-};
+const { data: posts } = await useFetch("/api/posts");
 
 useSeoMeta({
   title: "Soapbox News",
@@ -36,7 +30,7 @@ useSeoMeta({
           </p>
 
           <div class="flex items-center justify-between mb-2">
-            <span class="text-xs text-dark-400">{{ formatDate(post.created_at) }}</span>
+            <span class="text-xs text-dark-400">{{ full(post.created_at) }}</span>
           </div>
 
           <div class="flex items-center text-sm font-semibold text-accent-400 group-hover:text-accent-300">

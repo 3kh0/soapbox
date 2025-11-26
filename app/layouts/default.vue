@@ -1,27 +1,8 @@
 <script setup lang="ts">
+import { relative } from "../utils/dates";
+
 const { data: updates } = await useFetch("/api/updates");
 const showUpdates = ref(false);
-
-function timeAgo(timestamp: number) {
-  const seconds = Math.floor((Date.now() - timestamp * 1000) / 1000);
-
-  let interval = seconds / 31536000;
-  if (interval > 1) return Math.floor(interval) + "y";
-
-  interval = seconds / 2592000;
-  if (interval > 1) return Math.floor(interval) + "mo";
-
-  interval = seconds / 86400;
-  if (interval > 1) return Math.floor(interval) + "d";
-
-  interval = seconds / 3600;
-  if (interval > 1) return Math.floor(interval) + "h";
-
-  interval = seconds / 60;
-  if (interval > 1) return Math.floor(interval) + "m";
-
-  return Math.floor(seconds) + "s";
-}
 
 onMounted(() => {
   setTimeout(() => {
@@ -51,13 +32,13 @@ onMounted(() => {
           <div class="animate-marquee inline-block whitespace-nowrap">
             <span v-for="(update, index) in updates" :key="update.id" class="inline-flex items-center first:ml-6">
               <span class="text-dark-200">{{ update.content }}</span>
-              <span class="text-dark-500 text-xs ml-1.5">{{ timeAgo(update.created_at) }}</span>
+              <span class="text-dark-500 text-xs ml-1.5">{{ relative(update.created_at) }}</span>
               <span class="mx-3 text-dark-600">-</span>
             </span>
             <!-- Duplicate for seamless loop effect -->
             <span v-for="(update, index) in updates" :key="'dup-' + update.id" class="inline-flex items-center">
               <span class="text-dark-200">{{ update.content }}</span>
-              <span class="text-dark-500 text-xs ml-1.5">{{ timeAgo(update.created_at) }}</span>
+              <span class="text-dark-500 text-xs ml-1.5">{{ relative(update.created_at) }}</span>
               <span class="mx-3 text-dark-600">-</span>
             </span>
           </div>

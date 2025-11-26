@@ -20,6 +20,7 @@ import ProseTh from "../../components/content/ProseTh.vue";
 import ProseTd from "../../components/content/ProseTd.vue";
 import ProseCodeInline from "../../components/content/ProseCodeInline.vue";
 import ProseHr from "../../components/content/ProseHr.vue";
+import { relative, full } from "../../utils/dates";
 
 const components = {
   h1: ProseH1,
@@ -57,33 +58,6 @@ if (error.value) {
   });
 }
 
-const getRelativeTime = (timestamp: number) => {
-  const now = new Date();
-  const date = new Date(timestamp);
-  const diffMs = now.getTime() - date.getTime();
-  const diffMins = Math.floor(diffMs / 60000);
-  const diffHours = Math.floor(diffMins / 60);
-  const diffDays = Math.floor(diffHours / 24);
-
-  if (diffMins < 1) return "just now";
-  if (diffMins < 60) return `${diffMins}m ago`;
-  if (diffHours < 24) return `${diffHours}h ago`;
-  if (diffDays < 7) return `${diffDays}d ago`;
-  return date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
-};
-
-const formatFullDate = (timestamp: number) => {
-  const date = new Date(timestamp);
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZoneName: "short",
-  });
-};
-
 useSeoMeta({
   title: () => post.value?.title,
   description: () => post.value?.description,
@@ -108,7 +82,7 @@ useSeoMeta({
         <div class="text-dark-400 text-sm">
           <div class="flex items-center gap-2 group">
             <span>
-              {{ post.updated_at && post.updated_at !== post.created_at ? "Updated " + getRelativeTime(post.updated_at * 1000) : "Published " + getRelativeTime(post.created_at * 1000) }}
+              {{ post.updated_at && post.updated_at !== post.created_at ? "Updated " + relative(post.updated_at) : "Published " + relative(post.created_at) }} ago
             </span>
             <button class="opacity-75 group-hover:opacity-100 transition-opacity cursor-pointer" @click="showDateDetails = !showDateDetails" :aria-label="showDateDetails ? 'Hide date details' : 'Show date details'">
               <svg class="w-4 h-4 transform transition-transform" :class="{ 'rotate-180': showDateDetails }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -117,8 +91,8 @@ useSeoMeta({
             </button>
           </div>
           <div v-if="showDateDetails" class="mt-2 text-dark-500 text-xs space-y-1">
-            <div v-if="post.updated_at && post.updated_at !== post.created_at">Updated {{ formatFullDate(post.updated_at * 1000) }} ({{ getRelativeTime(post.updated_at * 1000) }})</div>
-            <div>Published {{ formatFullDate(post.created_at * 1000) }} ({{ getRelativeTime(post.created_at * 1000) }})</div>
+            <div v-if="post.updated_at && post.updated_at !== post.created_at">Updated {{ full(post.updated_at) }} ({{ relative(post.updated_at) }} ago)</div>
+            <div>Published {{ full(post.created_at) }} ({{ relative(post.created_at) }} ago)</div>
           </div>
         </div>
       </div>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { formatDateForInput, formatDateTimeForInput, parseDate, parseDateTime } from "../../../utils/dates";
+
 definePageMeta({
   layout: "admin",
 });
@@ -7,29 +9,6 @@ const { data: posts, refresh } = await useFetch("/api/posts");
 const showNewPost = ref(false);
 const selectedPost = ref<any>(null);
 const loadingPost = ref(false);
-
-const formatDateForInput = (timestamp: number) => {
-  const date = new Date(timestamp * 1000);
-  return date.toISOString().split("T")[0];
-};
-
-const formatDateTimeForInput = (timestamp: number) => {
-  const date = new Date(timestamp * 1000);
-  return date.toISOString().slice(0, 16); // YYYY-MM-DDTHH:mm
-};
-
-const parseDate = (dateString: string) => {
-  // Create date at noon UTC to avoid timezone issues
-  const [year, month, day] = dateString.split("-");
-  const date = new Date(`${year}-${month}-${day}T12:00:00Z`);
-  return Math.floor(date.getTime() / 1000);
-};
-
-const parseDateTime = (dateTimeString: string) => {
-  // Parse ISO datetime format (YYYY-MM-DDTHH:mm)
-  const date = new Date(`${dateTimeString}:00Z`);
-  return Math.floor(date.getTime() / 1000);
-};
 
 const newPost = ref({
   slug: "",
