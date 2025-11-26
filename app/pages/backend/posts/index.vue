@@ -199,12 +199,12 @@ async function deletePost(slug: string) {
             </div>
             <input :value="formatDateTimeForInput(newPost.created_at)" @input="(e: any) => (newPost.created_at = parseDateTime(e.target.value))" type="datetime-local" class="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-dark-100 focus:outline-none focus:border-accent-500 transition-colors" />
           </div>
-          </div>
+        </div>
 
-          <div class="flex gap-3 justify-end pt-4 border-t border-dark-700">
+        <div class="flex gap-3 justify-end pt-4 border-t border-dark-700">
           <button @click="showNewPost = false" class="px-4 py-2 text-dark-300 hover:text-dark-100 transition-colors">Cancel</button>
           <button @click="handleCreatePost" class="px-4 py-2 bg-accent-500 hover:bg-accent-600 text-dark-900 font-semibold rounded-lg transition-colors">Create Post</button>
-          </div>
+        </div>
       </div>
     </div>
 

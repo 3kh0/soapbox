@@ -104,35 +104,17 @@ useSeoMeta({
         <div class="text-dark-400 text-sm">
           <div class="flex items-center gap-2 group">
             <span>
-              {{
-                post.updated_at && post.updated_at !== post.created_at
-                  ? "Updated " + getRelativeTime(post.updated_at * 1000)
-                  : "Published " + getRelativeTime(post.created_at * 1000)
-              }}
+              {{ post.updated_at && post.updated_at !== post.created_at ? "Updated " + getRelativeTime(post.updated_at * 1000) : "Published " + getRelativeTime(post.created_at * 1000) }}
             </span>
-            <button
-              class="opacity-75 group-hover:opacity-100 transition-opacity cursor-pointer"
-              @click="showDateDetails = !showDateDetails"
-              :aria-label="showDateDetails ? 'Hide date details' : 'Show date details'"
-            >
-              <svg
-                class="w-4 h-4 transform transition-transform"
-                :class="{ 'rotate-180': showDateDetails }"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+            <button class="opacity-75 group-hover:opacity-100 transition-opacity cursor-pointer" @click="showDateDetails = !showDateDetails" :aria-label="showDateDetails ? 'Hide date details' : 'Show date details'">
+              <svg class="w-4 h-4 transform transition-transform" :class="{ 'rotate-180': showDateDetails }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
               </svg>
             </button>
           </div>
           <div v-if="showDateDetails" class="mt-2 text-dark-500 text-xs space-y-1">
-            <div v-if="post.updated_at && post.updated_at !== post.created_at">
-              Updated {{ formatFullDate(post.updated_at * 1000) }} ({{ getRelativeTime(post.updated_at * 1000) }})
-            </div>
-            <div>
-              Published {{ formatFullDate(post.created_at * 1000) }} ({{ getRelativeTime(post.created_at * 1000) }})
-            </div>
+            <div v-if="post.updated_at && post.updated_at !== post.created_at">Updated {{ formatFullDate(post.updated_at * 1000) }} ({{ getRelativeTime(post.updated_at * 1000) }})</div>
+            <div>Published {{ formatFullDate(post.created_at * 1000) }} ({{ getRelativeTime(post.created_at * 1000) }})</div>
           </div>
         </div>
       </div>

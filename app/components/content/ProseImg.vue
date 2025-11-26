@@ -6,15 +6,15 @@
 defineProps({
   src: {
     type: String,
-    default: ''
+    default: "",
   },
   alt: {
     type: String,
-    default: ''
+    default: "",
   },
   title: {
     type: String,
-    default: null
-  }
-})
+    default: null,
+  },
+});
 </script>

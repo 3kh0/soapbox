@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
     }
 
     const now = Math.floor(Date.now() / 1000);
-    const created_at = body.hasOwnProperty('created_at') ? body.created_at : now;
+    const created_at = body.hasOwnProperty("created_at") ? body.created_at : now;
 
     await db
       .prepare(
