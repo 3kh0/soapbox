@@ -16,12 +16,12 @@ export function relative(timestamp: number): string {
   const diffYears = Math.floor(diffDays / 365);
 
   if (diffMins < 1) return "just now";
-  if (diffMins < 60) return `${diffMins}m`;
-  if (diffHours < 24) return `${diffHours}h`;
-  if (diffDays < 7) return `${diffDays}d`;
-  if (diffWeeks < 4) return `${diffWeeks}w`;
-  if (diffMonths < 12) return `${diffMonths}mo`;
-  return `${diffYears}y`;
+  if (diffMins < 60) return `${diffMins}m ago`;
+  if (diffHours < 24) return `${diffHours}h ago`;
+  if (diffDays < 7) return `${diffDays}d ago`;
+  if (diffWeeks < 4) return `${diffWeeks}w ago`;
+  if (diffMonths < 12) return `${diffMonths}mo ago`;
+  return `${diffYears}y ago`;
 }
 
 /**

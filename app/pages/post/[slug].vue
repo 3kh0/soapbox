@@ -81,7 +81,7 @@ useSeoMeta({
         </h1>
         <div class="text-dark-400 text-sm">
           <div class="flex items-center gap-2 group">
-            <span> {{ post.updated_at && post.updated_at !== post.created_at ? "Updated " + relative(post.updated_at) : "Published " + relative(post.created_at) }} ago </span>
+            <span> {{ post.updated_at && post.updated_at !== post.created_at ? "Updated " + relative(post.updated_at) : "Published " + relative(post.created_at) }}</span>
             <button class="opacity-75 group-hover:opacity-100 transition-opacity cursor-pointer" @click="showDateDetails = !showDateDetails" :aria-label="showDateDetails ? 'Hide date details' : 'Show date details'">
               <svg class="w-4 h-4 transform transition-transform" :class="{ 'rotate-180': showDateDetails }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
@@ -89,8 +89,8 @@ useSeoMeta({
             </button>
           </div>
           <div v-if="showDateDetails" class="mt-2 text-dark-500 text-xs space-y-1">
-            <div v-if="post.updated_at && post.updated_at !== post.created_at">Updated {{ full(post.updated_at) }} ({{ relative(post.updated_at) }} ago)</div>
-            <div>Published {{ full(post.created_at) }} ({{ relative(post.created_at) }} ago)</div>
+            <div v-if="post.updated_at && post.updated_at !== post.created_at">Updated {{ full(post.updated_at) }} ({{ relative(post.updated_at) }})</div>
+            <div>Published {{ full(post.created_at) }} ({{ relative(post.created_at) }})</div>
           </div>
         </div>
       </div>
