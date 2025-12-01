@@ -30,10 +30,7 @@ export default defineEventHandler(async (event) => {
       });
     }
 
-    const slackTs = await postSlackUpdate(
-      { SLACK_BOT_TOKEN: slackToken, SLACK_CHANNEL_ID: slackChannel },
-      { headline: body.headline, subtext: body.subtext }
-    );
+    const slackTs = await postSlackUpdate({ SLACK_BOT_TOKEN: slackToken, SLACK_CHANNEL_ID: slackChannel }, { headline: body.headline, subtext: body.subtext });
 
     if (!slackTs) {
       throw createError({
@@ -45,9 +42,7 @@ export default defineEventHandler(async (event) => {
     const now = Math.floor(Date.now() / 1000);
 
     await db
-      .prepare(
-        `INSERT INTO updates (headline, subtext, slack_ts, created_at) VALUES (?, ?, ?, ?)`
-      )
+      .prepare(`INSERT INTO updates (headline, subtext, slack_ts, created_at) VALUES (?, ?, ?, ?)`)
       .bind(body.headline, body.subtext || null, slackTs, now)
       .run();
 

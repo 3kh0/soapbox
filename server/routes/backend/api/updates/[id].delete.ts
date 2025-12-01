@@ -33,10 +33,7 @@ export default defineEventHandler(async (event) => {
     }
 
     if (update.slack_ts && slackToken && slackChannel) {
-      await deleteSlackMessage(
-        { SLACK_BOT_TOKEN: slackToken, SLACK_CHANNEL_ID: slackChannel },
-        update.slack_ts as string
-      );
+      await deleteSlackMessage({ SLACK_BOT_TOKEN: slackToken, SLACK_CHANNEL_ID: slackChannel }, update.slack_ts as string);
     }
 
     await db.prepare("DELETE FROM updates WHERE id = ?").bind(id).run();
