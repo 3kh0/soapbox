@@ -1,5 +1,5 @@
 import { createError } from "h3";
-import { postSlackUpdate } from "../utils/slack";
+import { postSlackUpdate } from "../../../utils/slack";
 
 export default defineEventHandler(async (event) => {
   const db = event.context.cloudflare?.env?.soapbox;

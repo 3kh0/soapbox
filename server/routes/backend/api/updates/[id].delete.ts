@@ -1,5 +1,5 @@
 import { createError } from "h3";
-import { deleteSlackMessage } from "../../utils/slack";
+import { deleteSlackMessage } from "../../../../utils/slack";
 
 export default defineEventHandler(async (event) => {
   const db = event.context.cloudflare?.env?.soapbox;
