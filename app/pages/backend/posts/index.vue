@@ -129,8 +129,8 @@ async function deletePost(slug: string) {
   <div class="space-y-6">
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-3xl font-bold text-dark-50 mb-1">Blog Posts</h1>
-        <p class="text-dark-400">Manage and edit your Soapbox posts.</p>
+        <h1 class="text-3xl font-bold text-dark-50 mb-1">articles</h1>
+        <p class="text-dark-400">holy yapper</p>
       </div>
       <button @click="showNewPost = true" class="px-4 py-2 bg-accent-500 hover:bg-accent-600 text-dark-900 font-semibold rounded-lg transition-colors">+ New Post</button>
     </div>

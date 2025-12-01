@@ -7,7 +7,7 @@ const showUpdates = ref(false);
 onMounted(() => {
   setTimeout(() => {
     const marquee = document.querySelector(".animate-marquee");
-    //if (marquee) marquee.classList.add("active");
+    if (marquee) marquee.classList.add("active");
   }, 2000);
 });
 </script>
@@ -31,13 +31,13 @@ onMounted(() => {
 
           <div class="animate-marquee inline-block whitespace-nowrap">
             <span v-for="(update, index) in updates" :key="update.id" class="inline-flex items-center first:ml-6">
-              <span class="text-dark-200">{{ update.content }}</span>
+              <span class="text-dark-200">{{ update.headline }}</span>
               <span class="text-dark-500 text-xs ml-1.5">{{ relative(update.created_at) }}</span>
               <span class="mx-3 text-dark-600">-</span>
             </span>
             <!-- Duplicate for seamless loop effect -->
             <span v-for="(update, index) in updates" :key="'dup-' + update.id" class="inline-flex items-center">
-              <span class="text-dark-200">{{ update.content }}</span>
+              <span class="text-dark-200">{{ update.headline }}</span>
               <span class="text-dark-500 text-xs ml-1.5">{{ relative(update.created_at) }}</span>
               <span class="mx-3 text-dark-600">-</span>
             </span>

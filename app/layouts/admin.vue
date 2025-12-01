@@ -19,10 +19,11 @@ const sidebarOpen = ref(false);
         <nav class="space-y-3">
           <NuxtLink to="/backend" class="block px-4 py-2 rounded-lg hover:bg-dark-700 text-dark-200 hover:text-accent-400 transition-colors" :class="$route.path === '/backend' ? 'bg-dark-700 text-accent-400' : ''"> dashboard </NuxtLink>
           <NuxtLink to="/backend/posts" class="block px-4 py-2 rounded-lg hover:bg-dark-700 text-dark-200 hover:text-accent-400 transition-colors" :class="$route.path.startsWith('/backend/posts') ? 'bg-dark-700 text-accent-400' : ''"> articles </NuxtLink>
+          <NuxtLink to="/backend/updates" class="block px-4 py-2 rounded-lg hover:bg-dark-700 text-dark-200 hover:text-accent-400 transition-colors" :class="$route.path.startsWith('/backend/updates') ? 'bg-dark-700 text-accent-400' : ''"> rapid updates </NuxtLink>
         </nav>
 
         <div class="mt-8 pt-6 border-t border-dark-700">
-          <NuxtLink to="/" class="block px-4 py-2 rounded-lg hover:bg-dark-700 text-dark-400 hover:text-dark-200 transition-colors text-sm"> ← Back to Soapbox </NuxtLink>
+          <NuxtLink to="/" class="block px-4 py-2 rounded-lg hover:bg-dark-700 text-dark-400 hover:text-dark-200 transition-colors text-sm">← back to live site</NuxtLink>
         </div>
       </aside>
 
