@@ -25,7 +25,7 @@ const editState = ref({
 
 async function handleCreatePost() {
   try {
-    const response = await $fetch("/api/posts", {
+    const response = await $fetch("/backend/api/posts", {
       method: "POST",
       body: {
         slug: newPost.value.slug,
@@ -94,7 +94,7 @@ async function savePost() {
       body.updated_at = selectedPost.value.updated_at;
     }
 
-    const response = await $fetch(`/api/posts/${selectedPost.value.slug}`, {
+    const response = await $fetch(`/backend/api/posts/${selectedPost.value.slug}`, {
       method: "PUT",
       body,
     });
@@ -112,7 +112,7 @@ async function deletePost(slug: string) {
   if (!confirm("Are you sure you want to delete this post?")) return;
 
   try {
-    const response = await $fetch(`/api/posts/${slug}`, {
+    const response = await $fetch(`/backend/api/posts/${slug}`, {
       method: "DELETE",
     });
 

@@ -17,7 +17,7 @@ async function handleCreateUpdate() {
 
   isSubmitting.value = true;
   try {
-    const response = await $fetch("/api/updates", {
+    const response = await $fetch("/backend/api/updates", {
       method: "POST",
       body: {
         headline: newUpdate.value.headline,
@@ -41,7 +41,7 @@ async function deleteUpdate(id: number) {
   if (!confirm("Delete this update? It will also be removed from Slack.")) return;
 
   try {
-    const response = await $fetch(`/api/updates/${id}`, {
+    const response = await $fetch(`/backend/api/updates/${id}`, {
       method: "DELETE",
     });
 
