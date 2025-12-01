@@ -2,11 +2,7 @@
 const sidebarOpen = ref(false);
 
 const destroySession = () => {
-  document.cookie = "CF_AppSession=; path=/;";
-  document.cookie = "CF_Authorization=; path=/;";
-  document.cookie = "CF_Binding=; path=/;";
-  document.cookie = "cf_clearance=; path=/;";
-  window.location.reload();
+  window.location.href = 'https://3kh0.cloudflareaccess.com/cdn-cgi/access/logout';
 };
 </script>
 
