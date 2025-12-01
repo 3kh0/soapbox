@@ -2,9 +2,10 @@
 const sidebarOpen = ref(false);
 
 const destroySession = () => {
-  document.cookie = "CF_Binding=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-  document.cookie = "CF_Authorization=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-  // Optionally reload the page or navigate
+  document.cookie = "CF_AppSession=; path=/;";
+  document.cookie = "CF_Authorization=; path=/;";
+  document.cookie = "CF_Binding=; path=/;";
+  document.cookie = "cf_clearance=; path=/;";
   window.location.reload();
 };
 </script>
