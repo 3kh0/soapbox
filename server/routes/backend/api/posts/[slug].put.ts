@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
     }
 
     const now = Math.floor(Date.now() / 1000);
-    const updated_at = body.hasOwnProperty("updated_at") ? body.updated_at : now;
+    let updated_at = body.hasOwnProperty("updated_at") ? body.updated_at : now;
     const created_at = body.created_at || now;
     const published = body.published ? 1 : 0;
     
@@ -31,6 +31,7 @@ export default defineEventHandler(async (event) => {
     let published_at = currentPost?.published_at;
     if (published && !currentPost?.published) {
       published_at = now;
+      updated_at = now;
     }
 
     await db
