@@ -21,16 +21,25 @@ export default defineEventHandler(async (event) => {
       });
     }
 
-    const updated_at = body.hasOwnProperty("updated_at") ? body.updated_at : Math.floor(Date.now() / 1000);
-    const created_at = body.created_at || Math.floor(Date.now() / 1000);
+    const now = Math.floor(Date.now() / 1000);
+    const updated_at = body.hasOwnProperty("updated_at") ? body.updated_at : now;
+    const created_at = body.created_at || now;
+    const published = body.published ? 1 : 0;
+    
+    const currentPost = await db.prepare("SELECT published, published_at FROM posts WHERE slug = ?").bind(slug).first();
+    
+    let published_at = currentPost?.published_at;
+    if (published && !currentPost?.published) {
+      published_at = now;
+    }
 
     await db
       .prepare(
         `UPDATE posts 
-       SET title = ?, description = ?, content = ?, created_at = ?, updated_at = ? 
+       SET title = ?, description = ?, content = ?, created_at = ?, updated_at = ?, published = ?, published_at = ? 
        WHERE slug = ?`,
       )
-      .bind(body.title, body.description, body.content, created_at, updated_at, slug)
+      .bind(body.title, body.description, body.content, created_at, updated_at, published, published_at, slug)
       .run();
 
     return { success: true };

@@ -8,7 +8,9 @@ CREATE TABLE IF NOT EXISTS posts (
     description TEXT,
     content TEXT,
     created_at INTEGER,
-    updated_at INTEGER
+    updated_at INTEGER,
+    published INTEGER DEFAULT 0,
+    published_at INTEGER
 );
 
 INSERT INTO posts (slug, title, description, content, created_at, updated_at) VALUES 
