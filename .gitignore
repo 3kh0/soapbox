@@ -25,3 +25,4 @@ logs
 
 # Wrangler
 .wrangler
+.env.sentry-build-plugin

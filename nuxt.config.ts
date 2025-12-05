@@ -3,12 +3,15 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
+
   nitro: {
     preset: "cloudflare-pages",
   },
+
   css: ["./app/assets/main.css"],
   vite: { plugins: [tailwindcss()] },
-  modules: ["nitro-cloudflare-dev", "@nuxt/eslint", "@nuxt/fonts", "@nuxt/hints", "@nuxtjs/mdc"],
+  modules: ["nitro-cloudflare-dev", "@nuxt/eslint", "@nuxt/fonts", "@nuxt/hints", "@nuxtjs/mdc", "@sentry/nuxt/module"],
+
   app: {
     pageTransition: { name: "page", mode: "out-in" },
     head: {
@@ -33,5 +36,14 @@ export default defineNuxtConfig({
         { rel: "apple-touch-icon", href: "/icon.png" },
       ],
     },
+  },
+
+  sentry: {
+    org: "echo-net",
+    project: "soapbox",
+  },
+
+  sourcemap: {
+    client: "hidden",
   },
 });
