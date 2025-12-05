@@ -277,8 +277,8 @@ async function deletePost(slug: string) {
             <label class="flex items-center gap-3 cursor-pointer flex-1">
               <input v-model="selectedPost.published" type="checkbox" class="w-5 h-5 bg-dark-700 border border-dark-600 rounded focus:outline-none focus:border-accent-500 accent-accent-500" />
               <div>
-                <span class="text-dark-100 font-semibold">{{ selectedPost.published ? 'Published' : 'Unpublished (Draft)' }}</span>
-                <p class="text-dark-400 text-xs mt-0.5">{{ selectedPost.published ? 'This post is visible to the public' : 'This post is only accessible via direct link' }}</p>
+                <span class="text-dark-100 font-semibold">{{ selectedPost.published ? "Published" : "Unpublished (Draft)" }}</span>
+                <p class="text-dark-400 text-xs mt-0.5">{{ selectedPost.published ? "This post is visible to the public" : "This post is only accessible via direct link" }}</p>
               </div>
             </label>
           </div>

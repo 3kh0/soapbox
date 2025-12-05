@@ -25,9 +25,9 @@ export default defineEventHandler(async (event) => {
     let updated_at = body.hasOwnProperty("updated_at") ? body.updated_at : now;
     const created_at = body.created_at || now;
     const published = body.published ? 1 : 0;
-    
+
     const currentPost = await db.prepare("SELECT published, published_at FROM posts WHERE slug = ?").bind(slug).first();
-    
+
     let published_at = currentPost?.published_at;
     if (published && !currentPost?.published) {
       published_at = now;

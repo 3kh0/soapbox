@@ -124,7 +124,7 @@ function formatTime(timestamp: number) {
         <div class="flex gap-3 justify-end pt-4 border-t border-dark-700">
           <button @click="showNewUpdate = false" class="px-4 py-2 text-dark-300 hover:text-dark-100 transition-colors">Cancel</button>
           <button @click="handleCreateUpdate" :disabled="!newUpdate.headline.trim() || isSubmitting" class="px-4 py-2 bg-accent-500 hover:bg-accent-600 disabled:opacity-50 disabled:cursor-not-allowed text-dark-900 font-semibold rounded-lg transition-colors">
-            {{ isSubmitting ? "Pushing..." : (newUpdate.isStaging ? "Push to Staging" : "Push to Slack") }}
+            {{ isSubmitting ? "Pushing..." : newUpdate.isStaging ? "Push to Staging" : "Push to Slack" }}
           </button>
         </div>
       </div>
@@ -144,12 +144,7 @@ function formatTime(timestamp: number) {
             <p class="text-dark-500 text-xs mt-2">{{ formatTime(update.created_at) }}</p>
           </div>
           <div class="flex gap-2 ml-4 shrink-0">
-            <button
-              v-if="update.is_staging"
-              @click="promoteUpdate(update.id)"
-              :disabled="promoteInProgress === update.id"
-              class="px-3 py-1.5 text-sm bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed rounded transition-colors"
-            >
+            <button v-if="update.is_staging" @click="promoteUpdate(update.id)" :disabled="promoteInProgress === update.id" class="px-3 py-1.5 text-sm bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed rounded transition-colors">
               {{ promoteInProgress === update.id ? "Promoting..." : "Promote" }}
             </button>
             <button @click="deleteUpdate(update.id)" class="px-3 py-1.5 text-sm bg-red-500/20 text-red-400 hover:bg-red-500/30 rounded transition-colors">Delete</button>

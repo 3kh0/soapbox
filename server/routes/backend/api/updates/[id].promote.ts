@@ -32,10 +32,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // Get the update from database
-    const updateResult = await db
-      .prepare("SELECT id, headline, subtext, slack_ts, is_staging FROM updates WHERE id = ?")
-      .bind(id)
-      .first();
+    const updateResult = await db.prepare("SELECT id, headline, subtext, slack_ts, is_staging FROM updates WHERE id = ?").bind(id).first();
 
     if (!updateResult) {
       throw createError({
@@ -52,11 +49,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // Promote the message
-    const newSlackTs = await promoteSlackMessage(
-      { SLACK_BOT_TOKEN: slackToken, SLACK_CHANNEL_ID: slackChannel, SLACK_STAGING_CHANNEL_ID: slackStagingChannel },
-      { headline: updateResult.headline, subtext: updateResult.subtext },
-      updateResult.slack_ts
-    );
+    const newSlackTs = await promoteSlackMessage({ SLACK_BOT_TOKEN: slackToken, SLACK_CHANNEL_ID: slackChannel, SLACK_STAGING_CHANNEL_ID: slackStagingChannel }, { headline: updateResult.headline, subtext: updateResult.subtext }, updateResult.slack_ts);
 
     if (!newSlackTs) {
       throw createError({
@@ -66,10 +59,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // Update the database record
-    await db
-      .prepare("UPDATE updates SET slack_ts = ?, is_staging = 0 WHERE id = ?")
-      .bind(newSlackTs, id)
-      .run();
+    await db.prepare("UPDATE updates SET slack_ts = ?, is_staging = 0 WHERE id = ?").bind(newSlackTs, id).run();
 
     return { success: true };
   } catch (error) {

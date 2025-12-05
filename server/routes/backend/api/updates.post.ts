@@ -32,11 +32,7 @@ export default defineEventHandler(async (event) => {
     }
 
     const isStaging = body.isStaging === true;
-    const slackTs = await postSlackUpdate(
-      { SLACK_BOT_TOKEN: slackToken, SLACK_CHANNEL_ID: slackChannel, SLACK_STAGING_CHANNEL_ID: slackStagingChannel },
-      { headline: body.headline, subtext: body.subtext },
-      isStaging
-    );
+    const slackTs = await postSlackUpdate({ SLACK_BOT_TOKEN: slackToken, SLACK_CHANNEL_ID: slackChannel, SLACK_STAGING_CHANNEL_ID: slackStagingChannel }, { headline: body.headline, subtext: body.subtext }, isStaging);
 
     if (!slackTs) {
       throw createError({
