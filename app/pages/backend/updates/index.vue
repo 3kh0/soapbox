@@ -3,13 +3,15 @@ definePageMeta({
   layout: "admin",
 });
 
-const { data: updates, refresh } = await useFetch<Array<{ id: number; headline: string; subtext: string | null; slack_ts: string; created_at: number }>>("/api/updates?all=true");
+const { data: updates, refresh } = await useFetch<Array<{ id: number; headline: string; subtext: string | null; slack_ts: string; is_staging: number; created_at: number }>>("/api/updates?all=true");
 const showNewUpdate = ref(false);
 const isSubmitting = ref(false);
+const promoteInProgress = ref<number | null>(null);
 
 const newUpdate = ref({
   headline: "",
   subtext: "",
+  isStaging: false,
 });
 
 async function handleCreateUpdate() {
@@ -22,18 +24,38 @@ async function handleCreateUpdate() {
       body: {
         headline: newUpdate.value.headline,
         subtext: newUpdate.value.subtext || undefined,
+        isStaging: newUpdate.value.isStaging,
       },
     });
 
     if (response.success) {
       showNewUpdate.value = false;
-      newUpdate.value = { headline: "", subtext: "" };
+      newUpdate.value = { headline: "", subtext: "", isStaging: false };
       await refresh();
     }
   } catch (error) {
     console.error("Error creating update:", error);
   } finally {
     isSubmitting.value = false;
+  }
+}
+
+async function promoteUpdate(id: number) {
+  if (!confirm("Promote this update to the main channel?")) return;
+
+  promoteInProgress.value = id;
+  try {
+    const response = await $fetch(`/backend/api/updates/${id}/promote`, {
+      method: "POST",
+    });
+
+    if (response.success) {
+      await refresh();
+    }
+  } catch (error) {
+    console.error("Error promoting update:", error);
+  } finally {
+    promoteInProgress.value = null;
   }
 }
 
@@ -92,12 +114,17 @@ function formatTime(timestamp: number) {
             <textarea v-model="newUpdate.subtext" placeholder="More details..." rows="3" maxlength="500" class="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-dark-100 placeholder-dark-500 focus:outline-none focus:border-accent-500 transition-colors resize-none" />
             <p class="text-dark-500 text-xs mt-1">{{ newUpdate.subtext.length }}/500</p>
           </div>
+
+          <div class="flex items-center gap-3 p-3 bg-dark-700 rounded-lg border border-dark-600">
+            <input v-model="newUpdate.isStaging" type="checkbox" id="stagingCheckbox" class="w-4 h-4 accent-accent-500 rounded cursor-pointer" />
+            <label for="stagingCheckbox" class="text-dark-200 text-sm font-medium cursor-pointer">Post to staging channel first</label>
+          </div>
         </div>
 
         <div class="flex gap-3 justify-end pt-4 border-t border-dark-700">
           <button @click="showNewUpdate = false" class="px-4 py-2 text-dark-300 hover:text-dark-100 transition-colors">Cancel</button>
           <button @click="handleCreateUpdate" :disabled="!newUpdate.headline.trim() || isSubmitting" class="px-4 py-2 bg-accent-500 hover:bg-accent-600 disabled:opacity-50 disabled:cursor-not-allowed text-dark-900 font-semibold rounded-lg transition-colors">
-            {{ isSubmitting ? "Pushing..." : "Push to Slack" }}
+            {{ isSubmitting ? "Pushing..." : (newUpdate.isStaging ? "Push to Staging" : "Push to Slack") }}
           </button>
         </div>
       </div>
@@ -108,11 +135,25 @@ function formatTime(timestamp: number) {
       <div v-for="update in updates" :key="update.id" class="p-4 bg-dark-800 rounded-lg border border-dark-700 hover:border-dark-600 transition-colors">
         <div class="flex items-start justify-between">
           <div class="flex-1 min-w-0">
-            <h3 class="text-lg font-semibold text-dark-50">{{ update.headline }}</h3>
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="text-lg font-semibold text-dark-50">{{ update.headline }}</h3>
+              <span v-if="update.is_staging" class="px-2 py-1 text-xs font-semibold bg-yellow-500/20 text-yellow-300 rounded">STAGING</span>
+              <span v-else class="px-2 py-1 text-xs font-semibold bg-green-500/20 text-green-300 rounded">MAIN</span>
+            </div>
             <p v-if="update.subtext" class="text-dark-400 text-sm mt-1">{{ update.subtext }}</p>
             <p class="text-dark-500 text-xs mt-2">{{ formatTime(update.created_at) }}</p>
           </div>
-          <button @click="deleteUpdate(update.id)" class="px-3 py-1.5 text-sm bg-red-500/20 text-red-400 hover:bg-red-500/30 rounded transition-colors ml-4 shrink-0">Delete</button>
+          <div class="flex gap-2 ml-4 shrink-0">
+            <button
+              v-if="update.is_staging"
+              @click="promoteUpdate(update.id)"
+              :disabled="promoteInProgress === update.id"
+              class="px-3 py-1.5 text-sm bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed rounded transition-colors"
+            >
+              {{ promoteInProgress === update.id ? "Promoting..." : "Promote" }}
+            </button>
+            <button @click="deleteUpdate(update.id)" class="px-3 py-1.5 text-sm bg-red-500/20 text-red-400 hover:bg-red-500/30 rounded transition-colors">Delete</button>
+          </div>
         </div>
       </div>
     </div>

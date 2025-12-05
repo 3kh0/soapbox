@@ -61,5 +61,6 @@ CREATE TABLE IF NOT EXISTS updates (
     headline TEXT NOT NULL,
     subtext TEXT,
     slack_ts TEXT,
+    is_staging INTEGER DEFAULT 0,
     created_at INTEGER
 );
