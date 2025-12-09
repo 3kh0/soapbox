@@ -1,0 +1,38 @@
+{
+  "name": "soapbox",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "pnpm build && wrangler pages dev dist",
+    "postinstall": "nuxt prepare",
+    "lint": "prettier --write ."
+  },
+  "dependencies": {
+    "@nuxt/eslint": "1.10.0",
+    "@nuxt/fonts": "0.12.1",
+    "@nuxt/hints": "1.0.0-alpha.2",
+    "@sentry/nuxt": "^10.29.0",
+    "@tailwindcss/vite": "^4.1.17",
+    "eslint": "^9.39.1",
+    "import-in-the-middle": "^2.0.0",
+    "nuxt": "^4.2.2",
+    "tailwindcss": "^4.1.17",
+    "vue": "^3.5.25",
+    "vue-router": "^4.6.3"
+  },
+  "devDependencies": {
+    "@nuxtjs/mdc": "^0.18.4",
+    "nitro-cloudflare-dev": "^0.2.2",
+    "prettier": "^3.7.4",
+    "wrangler": "^4.53.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "@vercel/nft": "^0.27.4"
+    }
+  },
+  "packageManager": "pnpm@10.25.0+sha512.5e82639027af37cf832061bcc6d639c219634488e0f2baebe785028a793de7b525ffcd3f7ff574f5e9860654e098fe852ba8ac5dd5cefe1767d23a020a92f501"
+}

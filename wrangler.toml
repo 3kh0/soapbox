@@ -1,0 +1,8 @@
+name = "soapbox"
+compatibility_date = "2025-07-15"
+pages_build_output_dir = "./dist"
+
+[[d1_databases]]
+binding = "soapbox"
+database_name = "soapbox"
+database_id = "5bf3c0c6-9b45-4211-a298-a3367808f1e3"
