@@ -20,6 +20,7 @@ import ProseTh from "../../components/content/ProseTh.vue";
 import ProseTd from "../../components/content/ProseTd.vue";
 import ProseCodeInline from "../../components/content/ProseCodeInline.vue";
 import ProseHr from "../../components/content/ProseHr.vue";
+import ProseA from "../../components/content/ProseA.vue";
 import { relative, full } from "../../utils/dates";
 
 const components = {
@@ -44,6 +45,7 @@ const components = {
   td: ProseTd,
   code: ProseCodeInline,
   hr: ProseHr,
+  a: ProseA,
 };
 
 const route = useRoute();
