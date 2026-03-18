@@ -18,7 +18,7 @@
     "@tailwindcss/vite": "^4.1.17",
     "eslint": "^9.39.1",
     "import-in-the-middle": "^2.0.0",
-    "nuxt": "^4.2.2",
+    "nuxt": "^4.4.2",
     "tailwindcss": "^4.1.17",
     "vue": "^3.5.25",
     "vue-router": "^4.6.3"
